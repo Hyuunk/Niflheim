@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Toolskit {
-        public static int checkArgs(Player sender, final CommandsType cmdType, final String[] argsString) {
+        public static int checkArgs(Player sender, CommandsType cmdType, String[] argsString) {
             ArrayList<String> args = new ArrayList<String>(Arrays.asList(argsString));
             switch (cmdType) {
                 case AMOUNT: {
