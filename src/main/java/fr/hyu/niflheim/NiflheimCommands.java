@@ -35,10 +35,6 @@ public class NiflheimCommands implements CommandExecutor {
                     setGameMode(GameMode.SPECTATOR, args, player); break;
                 }
             }
-
-
-
-
         }
         return false;
     }

@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Toolskit {
-        public static int checkArgs(Player sender, CommandsType cmdType, String[] argsString) {
+        public static int checkArgs(Player sender ,CommandsType cmdType ,String[] argsString) {
             ArrayList<String> args = new ArrayList<String>(Arrays.asList(argsString));
             switch (cmdType) {
                 case AMOUNT: {
@@ -125,14 +125,14 @@ public class Toolskit {
 
         public enum CommandsType
         {
-            PLAYER("PLAYER", 0),
-            AMOUNT("AMOUNT", 1),
-            NOUN("NOUN", 2),
-            PLAYER_PLAYER("PLAYER_PLAYER", 3),
-            PLAYER_AMOUNT("PLAYER_AMOUNT", 4),
-            PLAYER_NOUN("PLAYER_NOUN", 5);
+            PLAYER("PLAYER"),
+            AMOUNT("AMOUNT"),
+            NOUN("NOUN"),
+            PLAYER_PLAYER("PLAYER_PLAYER"),
+            PLAYER_AMOUNT("PLAYER_AMOUNT"),
+            PLAYER_NOUN("PLAYER_NOUN");
 
-            private CommandsType(final String name, final int ordinal) {
+            private CommandsType(final String name) {
             }
         }
 }
