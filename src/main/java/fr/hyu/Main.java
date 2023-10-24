@@ -20,6 +20,8 @@ public class Main extends JavaPlugin {
         this.getCommand("gmc").setExecutor(new NiflheimCommands());
         this.getCommand("gms").setExecutor(new NiflheimCommands());
         this.getCommand("gmsp").setExecutor(new NiflheimCommands());
+        this.getCommand("setspawn").setExecutor(new NiflheimCommands());
+        this.getCommand("spawn").setExecutor(new NiflheimCommands());
 
         this.getServer().getPluginManager().registerEvents((Listener)new JoinLeaveEvents(),this);
 

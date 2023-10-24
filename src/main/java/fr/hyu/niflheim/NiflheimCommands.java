@@ -1,14 +1,17 @@
 package fr.hyu.niflheim;
 
+import fr.hyu.Main;
 import fr.hyu.Toolskit;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.GameMode;
-import org.bukkit.Sound;
+import org.bukkit.*;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
+
+import java.io.File;
+import java.io.IOException;
 
 public class NiflheimCommands implements CommandExecutor {
     @Override
@@ -34,12 +37,22 @@ public class NiflheimCommands implements CommandExecutor {
                     //if (!Player.hasPermission) break;
                     setGameMode(GameMode.SPECTATOR, args, player); break;
                 }
+                case "SPAWN": {
+                    handleSpawnCommand(player);
+                    break;
+                }
+                case "SETSPAWN": {
+                    if (!player.isOp()) break;
+                    handleSetSpawnCommand(player);
+                    break;
+                }
             }
         }
         return false;
     }
 
     public void setGameMode(final GameMode gamemode, final String[] args, final Player player) {
+        if (!player.isOp()) return;
         switch (Toolskit.checkArgs(player, Toolskit.CommandsType.PLAYER, args)) {
             case 0: {
                 final Player targetPlayer = Bukkit.getPlayer(args[0]);
@@ -61,6 +74,40 @@ public class NiflheimCommands implements CommandExecutor {
             }
         }
     }
+    // Système de spawn
 
+    private void handleSetSpawnCommand(Player player) {
+        Location spawnLocation = player.getLocation();
+        File file = new File(Main.INSTANCE.getDataFolder(), "spawn.yml");
+        FileConfiguration spawnConfig = (FileConfiguration)YamlConfiguration.loadConfiguration(file);
+
+        spawnConfig.set("spawn.x", spawnLocation.getBlockX());
+        spawnConfig.set("spawn.y", spawnLocation.getBlockY());
+        spawnConfig.set("spawn.z", spawnLocation.getBlockZ());
+        spawnConfig.set("spawn.yaw", spawnLocation.getYaw());
+        spawnConfig.set("spawn.pitch", spawnLocation.getPitch());
+        try {
+            spawnConfig.save(file);
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        player.sendMessage(ChatColor.GREEN + "Le spawn a été défini à votre emplacement actuel.");
+    }
+
+    private void handleSpawnCommand(Player player) {
+        File file = new File(Main.INSTANCE.getDataFolder(), "spawn.yml");
+        FileConfiguration spawnConfig = (FileConfiguration)YamlConfiguration.loadConfiguration(file);
+        double x = spawnConfig.getDouble("spawn.x");
+        double y = spawnConfig.getDouble("spawn.y");
+        double z = spawnConfig.getDouble("spawn.z");
+        double yaw = spawnConfig.getDouble("spawn.yaw");
+        double pitch = spawnConfig.getDouble("spawn.pitch");
+
+        Location spawnLocation = new Location(Bukkit.getWorld("world"), x, y, z, (float) yaw, (float) pitch);
+        player.teleport(spawnLocation);
+        player.sendMessage(ChatColor.GREEN + "Vous avez été télporté au spawn");
+
+    }
 }
-

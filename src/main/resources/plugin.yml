@@ -7,4 +7,6 @@ commands:
   gmc:
   gms:
   gmsp:
+  setspawn:
+  spawn:
 
