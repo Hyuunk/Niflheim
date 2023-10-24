@@ -1,10 +1,7 @@
 package fr.hyu.niflheim;
 
 import fr.hyu.Toolskit;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.GameMode;
-import org.bukkit.Sound;
+import org.bukkit.*;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -34,11 +31,14 @@ public class NiflheimCommands implements CommandExecutor {
                     //if (!Player.hasPermission) break;
                     setGameMode(GameMode.SPECTATOR, args, player); break;
                 }
+                case "SPAWN": {
+                    handleSpawnCommand(player);
+                    break;
+                }
+                case "SETSPAWN": {
+                    handleSetSpawnCommand(player);
+                }
             }
-
-
-
-
         }
         return false;
     }
@@ -64,6 +64,10 @@ public class NiflheimCommands implements CommandExecutor {
                 break;
             }
         }
+    }
+
+    public void handleSpawnCommand(Player player){
+        Location spawnLocation = Bukkit.getWorld().get(0).getSpawnLocation();
     }
 
 }
