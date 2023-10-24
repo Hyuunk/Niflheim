@@ -1,0 +1,10 @@
+name: Niflheim
+version: '0.1'
+main: fr.hyu.Main
+api-version: '1.20'
+commands:
+  gma:
+  gmc:
+  gms:
+  gmsp:
+
