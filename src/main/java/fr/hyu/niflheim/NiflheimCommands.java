@@ -94,12 +94,11 @@ public class NiflheimCommands implements CommandExecutor {
         spawnConfig.set("spawn.pitch", spawnLocation.getPitch());
         try {
             spawnConfig.save(file);
+            player.sendMessage(ChatColor.GREEN + "Le spawn a été défini à votre emplacement actuel.");
         }
         catch (IOException e) {
             e.printStackTrace();
         }
-
-        player.sendMessage(ChatColor.GREEN + "Le spawn a été défini à votre emplacement actuel.");
     }
 
     private void handleSpawnCommand(Player player) {
