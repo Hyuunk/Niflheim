@@ -2,7 +2,9 @@ package fr.hyu.niflheim;
 
 import fr.hyu.Main;
 import fr.hyu.Toolskit;
+import fr.hyu.niflheim.chat.ChatManager;
 import fr.hyu.niflheimPermissions.player.PlayerProfileManager;
+import fr.hyu.niflheimPermissions.player.PlayerRankProfile;
 import org.bukkit.*;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -48,7 +50,8 @@ public class NiflheimCommands implements CommandExecutor {
                     break;
                 }
                 case "PERMSTEST" : {
-                    player.sendMessage(PlayerProfileManager.profiles.get(sender).getRank().toString());
+                    if (!player.isOp()) break;
+                    PlayerProfileManager.profiles.get(player).setRank(PlayerRankProfile.Rank.valueOf(args[0].toUpperCase()));
                     break;
                 }
 
@@ -64,18 +67,18 @@ public class NiflheimCommands implements CommandExecutor {
                 final Player targetPlayer = Bukkit.getPlayer(args[0]);
                 targetPlayer.setGameMode(gamemode);
                 targetPlayer.playSound(targetPlayer.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 10.0f, 1.0f);
-                player.sendMessage(String.valueOf("ChatManager.MessageType.OLYMPCLASSIC.getMessage())" + "Tu viens de passer en mode " + ChatColor.GREEN + gamemode.name().toLowerCase() + " " + ChatColor.GRAY + targetPlayer.getName() + "."));
-                targetPlayer.sendMessage(String.valueOf("ChatManager.MessageType.OLYMPCLASSIC.getMessage())" + "Ton gamemode a \u00e9t\u00e9 chang\u00e9 en " + ChatColor.GREEN + gamemode.name().toLowerCase() + ChatColor.GRAY + "."));
+                player.sendMessage(ChatManager.MessageType.CLASSIC.getMessage() + "Tu viens de passer en mode " + ChatColor.GREEN + gamemode.name().toLowerCase() + " " + ChatColor.GRAY + targetPlayer.getName() + ".");
+                targetPlayer.sendMessage(ChatManager.MessageType.CLASSIC.getMessage() + "Ton gamemode a été changé en " + ChatColor.GREEN + gamemode.name().toLowerCase() + ChatColor.GRAY + ".");
                 break;
             }
             case 1: {
                 player.setGameMode(gamemode);
                 player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 10.0f, 1.0f);
-                player.sendMessage(String.valueOf("ChatManager.MessageType.OLYMPCLASSIC.getMessage())" + "Tu viens de passer en mode " + ChatColor.GREEN + gamemode.name().toLowerCase() + ChatColor.GRAY + "."));
+                player.sendMessage(ChatManager.MessageType.CLASSIC.getMessage() + "Tu viens de passer en mode " + ChatColor.GREEN + gamemode.name().toLowerCase() + ChatColor.GRAY + ".");
                 break;
             }
             case -3: {
-                player.sendMessage(String.valueOf("ChatManager.MessageType.OLYMPERROR.getMessage())" + "Invalid Player. Try /gm(a,c,s,sp)" + ChatColor.RED + " [<targetPlayer>]" + ChatColor.GRAY + "."));
+                player.sendMessage(ChatManager.MessageType.ERROR.getMessage() + "Invalid Player. Try /gm(a,c,s,sp)" + ChatColor.RED + " [<targetPlayer>]" + ChatColor.GRAY + ".");
                 break;
             }
         }

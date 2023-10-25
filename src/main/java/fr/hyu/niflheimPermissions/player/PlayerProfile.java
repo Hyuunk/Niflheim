@@ -13,6 +13,7 @@ import java.util.HashMap;
 import org.bukkit.inventory.Inventory;
 import java.util.List;
 import java.util.UUID;
+import fr.hyu.niflheimPermissions.player.PlayerRankProfile.Rank;
 
 public class PlayerProfile
 {
@@ -93,11 +94,11 @@ public class PlayerProfile
         this.uuid = uuid;
     }
 
-    public PlayerRankProfile.Rank getRank() {
+    public Rank getRank() {
         return this.rank;
     }
 
-    public void setRank(final PlayerRankProfile.Rank rank) {
+    public void setRank(Rank rank) {
         this.rank = rank;
         final File file = new File(Main.INSTANCE.getDataFolder(), "NiflheimPerms/players/" + name + ".yml");
         final FileConfiguration config = (FileConfiguration)YamlConfiguration.loadConfiguration(file);
@@ -132,7 +133,7 @@ public class PlayerProfile
         this.gold = gold;
         final File file = new File(Main.INSTANCE.getDataFolder(), "NiflheimPerms/players/" + name + ".yml");
         final FileConfiguration config = (FileConfiguration)YamlConfiguration.loadConfiguration(file);
-        config.set("gold", (Object)gold);
+        config.set("gold", gold);
         try {
             config.save(file);
         }

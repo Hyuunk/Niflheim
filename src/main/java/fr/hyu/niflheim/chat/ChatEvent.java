@@ -3,9 +3,12 @@ package fr.hyu.niflheim.chat;
 import fr.hyu.Main;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.w3c.dom.events.Event;
 
-public class ChatEvent {
+public class ChatEvent implements Listener {
     public static void EventStarter() {
         // You stuff with your file
         new BukkitRunnable() { // A BukkitRunnable who will execute every second (20 ticks)

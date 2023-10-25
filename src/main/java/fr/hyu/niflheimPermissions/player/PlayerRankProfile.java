@@ -1,6 +1,7 @@
 package fr.hyu.niflheimPermissions.player;
 
 import fr.hyu.Main;
+import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -59,21 +60,28 @@ public class PlayerRankProfile {
 
     public enum Rank
     {
-        GERANT("GERANT", 0),
-        RESPONSABLE("RESPONSABLE", 1),
-        DEVELOPPEUR("DEVELOPPEUR", 2),
-        MODERATEUR("MODERATEUR", 3),
-        BUILDER("BUILDER", 4),
-        ASSISTANT("ASSISTANT", 5),
-        AMI("AMI", 6),
-        DEFAULT("DEFAULT", 7);
+        GERANT("GERANT", "Gérant"),
+        RESPONSABLE("RESPONSABLE", "Responsable"),
+        DEVELOPPEUR("DEVELOPPEUR", "Développeur"),
+        MODERATEUR("MODERATEUR", "Modérateur"),
+        BUILDER("BUILDER", "Builder"),
+        ASSISTANT("ASSISTANT", "Assistant"),
+        AMI("AMI", "Ami"),
+        DEFAULT("DEFAULT", "Default");
 
         private String name;
-        private Rank(final String name, final int ordinal) {
+        private String displayName;
+
+        private Rank(String name, String displayName) {
         }
         public String getName() {
             return this.name;
         }
+        public String getDisplayName(){
+            return this.displayName;
+        }
+
+
     }
 }
 

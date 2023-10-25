@@ -2,6 +2,7 @@ package fr.hyu;
 
 import fr.hyu.niflheim.NiflheimCommands;
 import fr.hyu.niflheim.chat.ChatEvent;
+import fr.hyu.niflheim.chat.ChatManager;
 import fr.hyu.niflheim.chat.JoinLeaveEvents;
 import fr.hyu.niflheimPermissions.player.PlayerProfileManager;
 import fr.hyu.niflheimPermissions.player.PlayerRankProfile;
@@ -29,8 +30,9 @@ public class Main extends JavaPlugin {
         this.getCommand("spawn").setExecutor(new NiflheimCommands());
         this.getCommand("permstest").setExecutor(new NiflheimCommands());
 
-        this.getServer().getPluginManager().registerEvents((Listener) new PlayerProfileManager(), this);
+        this.getServer().getPluginManager().registerEvents((Listener)new PlayerProfileManager(), this);
         this.getServer().getPluginManager().registerEvents((Listener)new JoinLeaveEvents(),this);
+        this.getServer().getPluginManager().registerEvents((Listener)new ChatManager(), this);
 
     }
 
