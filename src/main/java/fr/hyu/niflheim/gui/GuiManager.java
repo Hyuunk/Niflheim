@@ -260,30 +260,30 @@ public class GuiManager implements Listener
 
     public enum InventoryTypeList
     {
-        INVENTORYNOT("INVENTORYNOT", 0, 0, "null"),
-        INVENTORYPLAYERMENU("INVENTORYPLAYERMENU", 1, 36, "Player Menu"),
-        INVENTORYPLAYERMENU_DEVMOD("INVENTORYPLAYERMENU_DEVMOD", 2, 36, "Player Menu (devmod)"),
-        INVENTORYPROFILE("INVENTORYPROFILE", 3, 54, "Profile"),
-        INVENTORYPROFILE_DEVMOD("INVENTORYPROFILE_DEVMOD", 4, 54, "Profile (devmod)"),
-        INVENTORYADMINSHOP("INVENTORYADMINSHOP", 5, 54, "AdminShop"),
-        INVENTORYADMINSHOP_DEVMOD("INVENTORYADMINSHOP_DEVMOD", 6, 54, "AdminShop (devmod)"),
-        INVENTORYADMINSHOP_ORES_1("INVENTORYADMINSHOP_ORES_1", 7, 54, "AdminShop Ores"),
-        INVENTORYADMINSHOP_NATURES_1("INVENTORYADMINSHOP_NATURES_1", 8, 54, "AdminShop Natures"),
-        INVENTORYADMINSHOP_NETHER_1("INVENTORYADMINSHOP_NETHER_1", 9, 54, "AdminShop Nether"),
-        INVENTORYADMINSHOP_END_1("INVENTORYADMINSHOP_END_1", 10, 54, "AdminShop End"),
-        INVENTORYSETTINGS("INVENTORYSETTINGS", 11, 54, "Settings"),
-        INVENTORYSETTINGS_DEVMOD("INVENTORYSETTINGS_DEVMOD", 12, 54, "Settings (devmod)");
+        INVENTORYNOT("INVENTORYNOT", 9, "null"),
+        INVENTORYPLAYERMENU("INVENTORYPLAYERMENU", 36, "Player Menu"),
+        INVENTORYPLAYERMENU_DEVMOD("INVENTORYPLAYERMENU_DEVMOD", 36, "Player Menu (devmod)"),
+        INVENTORYPROFILE("INVENTORYPROFILE", 54, "Profile"),
+        INVENTORYPROFILE_DEVMOD("INVENTORYPROFILE_DEVMOD", 54, "Profile (devmod)"),
+        INVENTORYADMINSHOP("INVENTORYADMINSHOP", 54, "AdminShop"),
+        INVENTORYADMINSHOP_DEVMOD("INVENTORYADMINSHOP_DEVMOD", 54, "AdminShop (devmod)"),
+        INVENTORYADMINSHOP_ORES_1("INVENTORYADMINSHOP_ORES_1", 54, "AdminShop Ores"),
+        INVENTORYADMINSHOP_NATURES_1("INVENTORYADMINSHOP_NATURES_1", 54, "AdminShop Natures"),
+        INVENTORYADMINSHOP_NETHER_1("INVENTORYADMINSHOP_NETHER_1",54, "AdminShop Nether"),
+        INVENTORYADMINSHOP_END_1("INVENTORYADMINSHOP_END_1", 54, "AdminShop End"),
+        INVENTORYSETTINGS("INVENTORYSETTINGS", 54, "Settings"),
+        INVENTORYSETTINGS_DEVMOD("INVENTORYSETTINGS_DEVMOD", 54, "Settings (devmod)");
 
         private int slotNumber;
         private String inventoryName;
 
-        private InventoryTypeList(final String name, final int ordinal, final int slotNumber, final String inventoryName) {
+        private InventoryTypeList(final String name, final int slotNumber, final String inventoryName) {
             this.slotNumber = slotNumber;
             this.inventoryName = inventoryName;
         }
 
         public Inventory createInventory(final Player player) {
-            return Bukkit.createInventory((InventoryHolder)player, this.slotNumber, this.inventoryName);
+            return Bukkit.createInventory(player, this.slotNumber, this.inventoryName);
         }
 
         public int getSlotNumber() {

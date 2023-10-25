@@ -18,6 +18,9 @@ public class PlayerProfile
 {
     private String name;
     private UUID uuid;
+
+    private PlayerRankProfile.Rank rank;
+
     private List<Inventory> inventoryArrayList;
     private HashMap<GuiManager.InventoryTypeList, Inventory> inventoryHashMapTypeListInv;
     private double gold;
@@ -30,6 +33,7 @@ public class PlayerProfile
         this.initFile();
         final File file = new File(Main.INSTANCE.getDataFolder(), "NiflheimPerms/players/" + this.name + ".yml");
         final FileConfiguration config = (FileConfiguration)YamlConfiguration.loadConfiguration(file);
+        this.rank = PlayerRankProfile.Rank.valueOf(config.getString("rank"));
         this.inventoryArrayList = this.initInventories(player);
         this.inventoryHashMapTypeListInv = this.initHashMap();
         this.gold = config.getDouble("gold");
@@ -60,9 +64,10 @@ public class PlayerProfile
         final File file = new File(Main.INSTANCE.getDataFolder(), "NiflheimPerms/players/" + this.name + ".yml");
         if (!file.exists()) {
             final FileConfiguration config = (FileConfiguration)YamlConfiguration.loadConfiguration(file);
-            config.set("gold", (Object)0);
-            config.set("karmaPoint", (Object)0);
-            config.set("warp", (Object)0);
+            config.set("rank", "DEFAULT");
+            config.set("gold", 0);
+            config.set("karmaPoint", 0);
+            config.set("warp", 0);
             try {
                 config.save(file);
             }
@@ -86,6 +91,23 @@ public class PlayerProfile
 
     public void setUuid(final UUID uuid) {
         this.uuid = uuid;
+    }
+
+    public PlayerRankProfile.Rank getRank() {
+        return this.rank;
+    }
+
+    public void setRank(final PlayerRankProfile.Rank rank) {
+        this.rank = rank;
+        final File file = new File(Main.INSTANCE.getDataFolder(), "NiflheimPerms/players/" + name + ".yml");
+        final FileConfiguration config = (FileConfiguration)YamlConfiguration.loadConfiguration(file);
+        config.set("rank", rank.getName());
+        try {
+            config.save(file);
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public List<Inventory> getInventories() {

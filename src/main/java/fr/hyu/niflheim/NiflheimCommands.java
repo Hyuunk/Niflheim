@@ -2,6 +2,7 @@ package fr.hyu.niflheim;
 
 import fr.hyu.Main;
 import fr.hyu.Toolskit;
+import fr.hyu.niflheimPermissions.player.PlayerProfileManager;
 import org.bukkit.*;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -46,6 +47,11 @@ public class NiflheimCommands implements CommandExecutor {
                     handleSetSpawnCommand(player);
                     break;
                 }
+                case "PERMSTEST" : {
+                    player.sendMessage(PlayerProfileManager.profiles.get(sender).getRank().toString());
+                    break;
+                }
+
             }
         }
         return false;
