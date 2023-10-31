@@ -3,6 +3,8 @@ package fr.hyu.niflheim;
 import fr.hyu.Main;
 import fr.hyu.Toolskit;
 import fr.hyu.niflheim.chat.ChatManager;
+import fr.hyu.niflheim.gui.GuiManager;
+import fr.hyu.niflheimMMO.classes.PlayerClassesProfile;
 import fr.hyu.niflheimPermissions.player.PlayerProfileManager;
 import fr.hyu.niflheimPermissions.player.PlayerRankProfile;
 import org.bukkit.*;
@@ -52,6 +54,11 @@ public class NiflheimCommands implements CommandExecutor {
                 case "PERMSTEST" : {
                     if (!player.isOp()) break;
                     PlayerProfileManager.profiles.get(player).setRank(PlayerRankProfile.Rank.valueOf(args[0].toUpperCase()));
+                    break;
+                }
+                case "TEST": {
+                    PlayerProfileManager.profiles.get(player).setClasses(PlayerClassesProfile.Classes.NONE);
+                   GuiManager.toOpen(player,PlayerProfileManager.profiles.get(player).getHashMapInventoryTypeToInventory().get(GuiManager.InventoryTypeList.INVENTORYCLASSES));
                     break;
                 }
 

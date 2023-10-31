@@ -1,5 +1,6 @@
 package fr.hyu.niflheimPermissions.player;
 
+import fr.hyu.niflheimMMO.classes.PlayerClassesProfile;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -25,6 +26,7 @@ public class PlayerProfileManager implements Listener
     @EventHandler
     public void onQuit(PlayerQuitEvent event) {
         Player player = event.getPlayer();
+        if (PlayerProfileManager.profiles.get(player).getClasses().equals(PlayerClassesProfile.Classes.PENDING)) { PlayerProfileManager.profiles.get(player).setClasses(PlayerClassesProfile.Classes.NONE); }
         PlayerProfileManager.profiles.remove(player);
     }
 }

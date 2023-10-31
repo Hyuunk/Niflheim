@@ -20,12 +20,10 @@ public class PlayerRankProfile {
     }
 
     public static void initRank() {
-        Main.INSTANCE.getServer().broadcastMessage("aaa");
         final File filePermissions = new File(Main.INSTANCE.getDataFolder(), "NiflheimPerms/permissions/permissions.yml");
         final FileConfiguration configPermissions = (FileConfiguration) YamlConfiguration.loadConfiguration(filePermissions);
         if (!filePermissions.exists()) {
-            Main.INSTANCE.getServer().broadcastMessage("bbb");
-            configPermissions.set("rank.gerant.permissions", "olymp.*");
+            configPermissions.set("rank.gerant.permissions", "niflheim.*");
             configPermissions.set("rank.responsable.permissions", "null");
             configPermissions.set("rank.developpeur.permissions", "null");
             configPermissions.set("rank.moderateur.permissions", "null");
@@ -60,19 +58,23 @@ public class PlayerRankProfile {
 
     public enum Rank
     {
-        GERANT("GERANT", "Gérant"),
-        RESPONSABLE("RESPONSABLE", "Responsable"),
-        DEVELOPPEUR("DEVELOPPEUR", "Développeur"),
-        MODERATEUR("MODERATEUR", "Modérateur"),
-        BUILDER("BUILDER", "Builder"),
-        ASSISTANT("ASSISTANT", "Assistant"),
-        AMI("AMI", "Ami"),
-        DEFAULT("DEFAULT", "Default");
+        GERANT("GERANT", "Gérant", ChatColor.GOLD),
+        RESPONSABLE("RESPONSABLE", "Responsable", ChatColor.RED),
+        DEVELOPPEUR("DEVELOPPEUR", "Développeur", ChatColor.BLUE),
+        MODERATEUR("MODERATEUR", "Modérateur", ChatColor.YELLOW),
+        BUILDER("BUILDER", "Builder", ChatColor.LIGHT_PURPLE),
+        ASSISTANT("ASSISTANT", "Assistant", ChatColor.GREEN),
+        AMI("AMI", "Ami", ChatColor.DARK_GREEN),
+        DEFAULT("DEFAULT", "Default", ChatColor.WHITE);
 
         private String name;
         private String displayName;
+        private ChatColor color;
 
-        private Rank(String name, String displayName) {
+        private Rank(String name, String displayName, ChatColor color) {
+            this.name = name;
+            this.displayName = displayName;
+            this.color = color;
         }
         public String getName() {
             return this.name;
@@ -80,6 +82,8 @@ public class PlayerRankProfile {
         public String getDisplayName(){
             return this.displayName;
         }
+
+        public ChatColor getColor() { return this.color; }
 
 
     }

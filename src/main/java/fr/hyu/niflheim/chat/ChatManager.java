@@ -18,6 +18,12 @@ public class ChatManager implements Listener {
 
     public void toFormat(Player player, final String message, final AsyncPlayerChatEvent event) {
         Rank rank = PlayerProfileManager.profiles.get(player).getRank();
+    /*   if (rank != Rank.DEFAULT) {
+            event.setFormat(ChatColor.GRAY + "[" + rank.getColor() + rank.getDisplayName() + ChatColor.GRAY + "] " + player.getName() + ": " + colourise(message));
+        } else {
+            event.setFormat(player.getName() + ": " + colourise(message));
+        }
+        */
         switch (rank) {
 
             case GERANT:

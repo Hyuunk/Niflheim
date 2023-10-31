@@ -1,10 +1,17 @@
 package fr.hyu.niflheim.gui;
 
+import fr.hyu.niflheim.gui.menu.MenuManager;
+import fr.hyu.niflheim.gui.menu.classes.*;
+import fr.hyu.niflheim.gui.menu.profile.ProfileMenu;
+import fr.hyu.niflheim.gui.menu.settings.SettingsMenu;
+import fr.hyu.niflheim.gui.menu.stats.StatsMenu;
 import fr.hyu.niflheimPermissions.player.PlayerProfileManager;
-import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.Bukkit;
+
 import java.util.ArrayList;
 import java.util.List;
+
+import org.bukkit.ChatColor;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.event.EventHandler;
@@ -16,12 +23,12 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.Listener;
 
-public class GuiManager implements Listener
-{
+
+public class GuiManager implements Listener {
     @EventHandler
     public void onInventoryClick(final InventoryClickEvent event) {
         final ItemStack itemStack = event.getCurrentItem();
-        final Player player = (Player)event.getWhoClicked();
+        final Player player = (Player) event.getWhoClicked();
         final InventoryAction action = event.getAction();
         if (PlayerProfileManager.profiles.get(player).getInventories().contains(event.getInventory())) {
             event.setCancelled(true);
@@ -29,58 +36,66 @@ public class GuiManager implements Listener
                 return;
             }
             if (itemStack.getType() == Material.BARRIER) {
-                closeInventory((HumanEntity)player);
-            }
-            else {
-                switch (getInventoryType(event.getInventory())) {
-                    case INVENTORYPLAYERMENU: {
+                closeInventory((HumanEntity) player);
+            } else {
+                switch (getInventoryType(event.getInventory(), player)) {
+                    case INVENTORYPLAYERMENU:
                         MenuManager.onMenuItem(itemStack, player, action);
                         break;
-                    }
-                    case INVENTORYPLAYERMENU_DEVMOD: {
+                    case INVENTORYPLAYERMENU_DEVMOD:
                         MenuManager.onMenuDevItem(itemStack, player, action);
                         break;
-                    }
-                    case INVENTORYPROFILE: {
-                        MenuManager.onProfileItem(itemStack, player, action);
+                    case INVENTORYPROFILE:
+                        ProfileMenu.onProfileItem(itemStack, player, action);
                         break;
-                    }
-                    case INVENTORYPROFILE_DEVMOD: {
-                        MenuManager.onProfileDevItem(itemStack, player, action);
+                    case INVENTORYPROFILE_DEVMOD:
+                        ProfileMenu.onProfileDevItem(itemStack, player, action);
                         break;
-                    }
-                    case INVENTORYADMINSHOP: {
-                        MenuManager.onAdminShopItem(itemStack, player, action);
+                    case INVENTORYSTATS:
+                        StatsMenu.onMenuStatsItem(itemStack, player, action);
                         break;
-                    }
-                    case INVENTORYADMINSHOP_ORES_1: {
-                        MenuManager.onAdminShop_1Item(itemStack, player, action);
+                    case INVENTORYSTATS_DEVMOD:
+                        StatsMenu.onMenuStatsDevItem(itemStack, player, action);
                         break;
-                    }
-                    case INVENTORYADMINSHOP_NATURES_1: {
-                        MenuManager.onAdminShop_1Item(itemStack, player, action);
+                    case INVENTORYSETTINGS:
+                        SettingsMenu.onSettingsItem(itemStack, player, action);
                         break;
-                    }
-                    case INVENTORYADMINSHOP_NETHER_1: {
-                        MenuManager.onAdminShop_1Item(itemStack, player, action);
+                    case INVENTORYSETTINGS_DEVMOD:
+                        SettingsMenu.onSettingsDevItem(itemStack, player, action);
                         break;
-                    }
-                    case INVENTORYADMINSHOP_END_1: {
-                        MenuManager.onAdminShop_1Item(itemStack, player, action);
+                    case INVENTORYCLASSES:
+                        ClassesMenu.onClassesItem(itemStack, player, action);
                         break;
-                    }
-                    case INVENTORYSETTINGS: {
-                        MenuManager.onSettingsItem(itemStack, player, action);
+                    case INVENTORYCLASSES_DEVMOD:
+                        ClassesMenu.onClassesDevItem(itemStack, player, action);
                         break;
-                    }
-                    case INVENTORYSETTINGS_DEVMOD: {
-                        MenuManager.onSettingsDevItem(itemStack, player, action);
+                    case INVENTORYSUBARCHER:
+                        ArcherSubClassesMenu.onMenuArcherSubItem(itemStack, player, action, event.getRawSlot());
                         break;
-                    }
-                    default: {
-                        System.out.println("[OLYMPPLAYERS] (GuiManager.onInventoryClick) undefined button path");
+                    case INVENTORYSUBARCHER_DEVMOD:
+                        ArcherSubClassesMenu.onMenuArcherSubDevItem(itemStack, player, action, event.getRawSlot());
                         break;
-                    }
+                    case INVENTORYSUBMAGE:
+                        MageSubClassesMenu.onMenuMageSubItem(itemStack, player, action, event.getRawSlot());
+                        break;
+                    case INVENTORYSUBMAGE_DEVMOD:
+                        MageSubClassesMenu.onMenuMageSubDevItem(itemStack, player, action, event.getRawSlot());
+                        break;
+                    case INVENTORYSUBSPIRITUALIST:
+                        SpiritualistSubClassesMenu.onMenuSpiritualistSubItem(itemStack, player, action, event.getRawSlot());
+                        break;
+                    case INVENTORYSUBSPIRITUALIST_DEVMOD:
+                        SpiritualistSubClassesMenu.onMenuSpiritualistSubDevItem(itemStack, player, action, event.getRawSlot());
+                        break;
+                    case INVENTORYSUBWARRIOR:
+                        WarriorSubClassesMenu.onMenuWarriorSubItem(itemStack, player, action, event.getRawSlot());
+                        break;
+                    case INVENTORYSUBWARRIOR_DEVMOD:
+                        WarriorSubClassesMenu.onMenuWarriorSubDevItem(itemStack, player, action, event.getRawSlot());
+                        break;
+                    default:
+                        break;
+
                 }
             }
         }
@@ -88,7 +103,7 @@ public class GuiManager implements Listener
 
     @EventHandler
     public void onInventoryDrag(final InventoryDragEvent event) {
-        final Player player = (Player)event.getWhoClicked();
+        final Player player = (Player) event.getWhoClicked();
         if (PlayerProfileManager.profiles.get(player).getInventories().contains(event.getInventory())) {
             event.setCancelled(true);
         }
@@ -102,55 +117,62 @@ public class GuiManager implements Listener
         entity.closeInventory();
     }
 
-    public static void toOpen(final Player player, final Inventory inventory) {
-        if (isInventoryType(inventory)) {
-            switch (getInventoryType(inventory)) {
-                case INVENTORYPLAYERMENU: {
+    public static void toOpen(Player player, Inventory inventory) {
+            switch (getInventoryType(inventory, player)) {
+                case INVENTORYPLAYERMENU:
                     MenuManager.initializePlayerMenuItems(player, inventory);
                     break;
-                }
-                case INVENTORYPLAYERMENU_DEVMOD: {
+                case INVENTORYPLAYERMENU_DEVMOD:
                     MenuManager.initializePlayerMenuDevItems(player, inventory);
                     break;
-                }
-                case INVENTORYPROFILE: {
-                    MenuManager.initializeProfileMenuItems(player, inventory);
+                case INVENTORYPROFILE:
+                    ProfileMenu.initializeProfileMenuItems(player, inventory);
                     break;
-                }
-                case INVENTORYPROFILE_DEVMOD: {
-                    MenuManager.initializeProfileMenuDevItems(player, inventory);
+                case INVENTORYPROFILE_DEVMOD:
+                    ProfileMenu.initializeProfileMenuDevItems(player, inventory);
                     break;
-                }
-                case INVENTORYADMINSHOP: {
-                    MenuManager.initializeAdminShopMenuItems(player, inventory);
+                case INVENTORYSTATS:
+                    StatsMenu.initializeStatsMenuItems(player, inventory);
                     break;
-                }
- /*               case INVENTORYADMINSHOP_ORES_1: {
-                    MenuManager.initializeAdminShop_Ores_1MenuItems(player, inventory);
+                case INVENTORYSTATS_DEVMOD:
+                    StatsMenu.initializeStatsMenuDevItems(player, inventory);
                     break;
-                }
-                case INVENTORYADMINSHOP_NATURES_1: {
-                    MenuManager.initializeAdminShop_Natures_1MenuItems(player, inventory);
+                case INVENTORYSETTINGS:
+                    SettingsMenu.initializeSettingsMenuItems(player, inventory);
                     break;
-                }
-                case INVENTORYADMINSHOP_NETHER_1: {
-                    MenuManager.initializeAdminShop_Nether_1MenuItems(player, inventory);
+                case INVENTORYSETTINGS_DEVMOD:
+                    SettingsMenu.initializeSettingsMenuDevItems(player, inventory);
                     break;
-                }
-                case INVENTORYADMINSHOP_END_1: {
-                    MenuManager.initializeAdminShop_End_1MenuItems(player, inventory);
+                case INVENTORYCLASSES:
+                    ClassesMenu.initializeClassesMenuItems(player, inventory);
                     break;
-                }
-
-  */
-                case INVENTORYSETTINGS: {
-                    MenuManager.initializeSettingsMenuItems(player, inventory);
+                case INVENTORYCLASSES_DEVMOD:
+                    ClassesMenu.initializeClassesMenuDevItems(player, inventory);
                     break;
-                }
-                case INVENTORYSETTINGS_DEVMOD: {
-                    MenuManager.initializeSettingsMenuDevItems(player, inventory);
+                case INVENTORYSUBARCHER:
+                    ArcherSubClassesMenu.initializeArcherSubMenuItems(player, inventory);
                     break;
-                }
+                case INVENTORYSUBARCHER_DEVMOD:
+                    ArcherSubClassesMenu.initializeArcherSubMenuDevItems(player, inventory);
+                    break;
+                case INVENTORYSUBMAGE:
+                    MageSubClassesMenu.initializeMageSubMenuItems(player, inventory);
+                    break;
+                case INVENTORYSUBMAGE_DEVMOD:
+                    MageSubClassesMenu.initializeMageSubMenuDevItems(player, inventory);
+                    break;
+                case INVENTORYSUBSPIRITUALIST:
+                    SpiritualistSubClassesMenu.initializeSpiritualistSubMenuItems(player, inventory);
+                    break;
+                case INVENTORYSUBSPIRITUALIST_DEVMOD:
+                    SpiritualistSubClassesMenu.initializeSpiritualistSubMenuDevItems(player, inventory);
+                    break;
+                case INVENTORYSUBWARRIOR:
+                    WarriorSubClassesMenu.initializeWarriorSubMenuItems(player, inventory);
+                    break;
+                case INVENTORYSUBWARRIOR_DEVMOD:
+                    WarriorSubClassesMenu.initializeWarriorSubMenuDevItems(player, inventory);
+                    break;
                 default: {
                     System.out.println("[OLYMPPLAYERS] (GuiManager.initialize) inventory initialize path not defined");
                     break;
@@ -158,70 +180,68 @@ public class GuiManager implements Listener
             }
             player.openInventory(inventory);
         }
-        else {
-            System.out.println("[OLYMPPLAYERS] (GuiManager.initialize) inventoryType not recognized");
-        }
-    }
 
-    public static void toActualize(final Player player, final Inventory inventory) {
-        if (isInventoryType(inventory)) {
-            switch (getInventoryType(inventory)) {
-                case INVENTORYPLAYERMENU: {
+    public static void toActualize( Player player,  Inventory inventory) {
+            switch (getInventoryType(inventory, player)) {
+                case INVENTORYPLAYERMENU:
                     MenuManager.initializePlayerMenuItems(player, inventory);
                     break;
-                }
-                case INVENTORYPLAYERMENU_DEVMOD: {
+                case INVENTORYPLAYERMENU_DEVMOD:
                     MenuManager.initializePlayerMenuDevItems(player, inventory);
                     break;
-                }
-                case INVENTORYPROFILE: {
-                    MenuManager.initializeProfileMenuItems(player, inventory);
+                case INVENTORYPROFILE:
+                    ProfileMenu.initializeProfileMenuItems(player, inventory);
                     break;
-                }
-                case INVENTORYPROFILE_DEVMOD: {
-                    MenuManager.initializeProfileMenuDevItems(player, inventory);
+                case INVENTORYPROFILE_DEVMOD:
+                    ProfileMenu.initializeProfileMenuDevItems(player, inventory);
                     break;
-                }
-                case INVENTORYADMINSHOP: {
-                    MenuManager.initializeAdminShopMenuItems(player, inventory);
+                case INVENTORYSTATS:
+                    StatsMenu.initializeStatsMenuItems(player, inventory);
                     break;
-                }
-                /*
-                case INVENTORYADMINSHOP_ORES_1: {
-                    MenuManager.initializeAdminShop_Ores_1MenuItems(player, inventory);
+                case INVENTORYSTATS_DEVMOD:
+                    StatsMenu.initializeStatsMenuDevItems(player, inventory);
                     break;
-                }
-                case INVENTORYADMINSHOP_NATURES_1: {
-                    MenuManager.initializeAdminShop_Natures_1MenuItems(player, inventory);
+                case INVENTORYSETTINGS:
+                    SettingsMenu.initializeSettingsMenuItems(player, inventory);
                     break;
-                }
-                case INVENTORYADMINSHOP_NETHER_1: {
-                    MenuManager.initializeAdminShop_Nether_1MenuItems(player, inventory);
+                case INVENTORYSETTINGS_DEVMOD:
+                    SettingsMenu.initializeSettingsMenuDevItems(player, inventory);
                     break;
-                }
-                case INVENTORYADMINSHOP_END_1: {
-                    MenuManager.initializeAdminShop_End_1MenuItems(player, inventory);
+                case INVENTORYCLASSES:
+                    ClassesMenu.initializeClassesMenuItems(player, inventory);
                     break;
-                }
-
-                 */
-                case INVENTORYSETTINGS: {
-                    MenuManager.initializeSettingsMenuItems(player, inventory);
+                case INVENTORYCLASSES_DEVMOD:
+                    ClassesMenu.initializeClassesMenuDevItems(player, inventory);
                     break;
-                }
-                case INVENTORYSETTINGS_DEVMOD: {
-                    MenuManager.initializeSettingsMenuDevItems(player, inventory);
+                case INVENTORYSUBARCHER:
+                    ArcherSubClassesMenu.initializeArcherSubMenuItems(player, inventory);
                     break;
-                }
+                case INVENTORYSUBARCHER_DEVMOD:
+                    ArcherSubClassesMenu.initializeArcherSubMenuDevItems(player, inventory);
+                    break;
+                case INVENTORYSUBMAGE:
+                    MageSubClassesMenu.initializeMageSubMenuItems(player, inventory);
+                    break;
+                case INVENTORYSUBMAGE_DEVMOD:
+                    MageSubClassesMenu.initializeMageSubMenuDevItems(player, inventory);
+                    break;
+                case INVENTORYSUBSPIRITUALIST:
+                    SpiritualistSubClassesMenu.initializeSpiritualistSubMenuItems(player, inventory);
+                    break;
+                case INVENTORYSUBSPIRITUALIST_DEVMOD:
+                    SpiritualistSubClassesMenu.initializeSpiritualistSubMenuDevItems(player, inventory);
+                    break;
+                case INVENTORYSUBWARRIOR:
+                    WarriorSubClassesMenu.initializeWarriorSubMenuItems(player, inventory);
+                    break;
+                case INVENTORYSUBWARRIOR_DEVMOD:
+                    WarriorSubClassesMenu.initializeWarriorSubMenuDevItems(player, inventory);
+                    break;
                 default: {
                     System.out.println("[OLYMPPLAYERS] (GuiManager.initialize) inventory initialize path not defined");
                     break;
                 }
             }
-        }
-        else {
-            System.out.println("[OLYMPPLAYERS] (GuiManager.initialize) inventoryType not recognized");
-        }
     }
 
     public static List<String> getListNameInventory(Player player) {
@@ -232,57 +252,50 @@ public class GuiManager implements Listener
         return inventoryList;
     }
 
-    public static boolean isInventoryType(Inventory inventory) {
-        String inventoryName = inventory.getType().name();
+    public static InventoryTypeList getInventoryType(Inventory inventory, Player player) {
+
         int inventorySize = inventory.getSize();
         InventoryTypeList[] values;
-        for (int length = (values = InventoryTypeList.values()).length, i = 0; i < length; ++i) {
-            InventoryTypeList inv = values[i];
-            if (inv.getSlotNumber() == inventorySize && inv.getInventoryName() == inventoryName) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public static InventoryTypeList getInventoryType(final Inventory inventory) {
-        final String inventoryName = inventory.getType().name();
-        final int inventorySize = inventory.getSize();
-        InventoryTypeList[] values;
-        for (int length = (values = InventoryTypeList.values()).length, i = 0; i < length; ++i) {
-            final InventoryTypeList inv = values[i];
-            if (inv.getSlotNumber() == inventorySize && inv.getInventoryName() == inventoryName) {
-                return inv;
+        for (InventoryTypeList type : InventoryTypeList.values()) {
+            if (PlayerProfileManager.profiles.get(player).getHashMapInventoryTypeToInventory().get(type) == inventory) {
+                return type;
             }
         }
         return InventoryTypeList.INVENTORYNOT;
     }
 
-    public enum InventoryTypeList
-    {
-        INVENTORYNOT("INVENTORYNOT", 9, "null"),
-        INVENTORYPLAYERMENU("INVENTORYPLAYERMENU", 36, "Player Menu"),
-        INVENTORYPLAYERMENU_DEVMOD("INVENTORYPLAYERMENU_DEVMOD", 36, "Player Menu (devmod)"),
-        INVENTORYPROFILE("INVENTORYPROFILE", 54, "Profile"),
-        INVENTORYPROFILE_DEVMOD("INVENTORYPROFILE_DEVMOD", 54, "Profile (devmod)"),
-        INVENTORYADMINSHOP("INVENTORYADMINSHOP", 54, "AdminShop"),
-        INVENTORYADMINSHOP_DEVMOD("INVENTORYADMINSHOP_DEVMOD", 54, "AdminShop (devmod)"),
-        INVENTORYADMINSHOP_ORES_1("INVENTORYADMINSHOP_ORES_1", 54, "AdminShop Ores"),
-        INVENTORYADMINSHOP_NATURES_1("INVENTORYADMINSHOP_NATURES_1", 54, "AdminShop Natures"),
-        INVENTORYADMINSHOP_NETHER_1("INVENTORYADMINSHOP_NETHER_1",54, "AdminShop Nether"),
-        INVENTORYADMINSHOP_END_1("INVENTORYADMINSHOP_END_1", 54, "AdminShop End"),
-        INVENTORYSETTINGS("INVENTORYSETTINGS", 54, "Settings"),
-        INVENTORYSETTINGS_DEVMOD("INVENTORYSETTINGS_DEVMOD", 54, "Settings (devmod)");
+    public enum InventoryTypeList {
+        INVENTORYNOT("INVENTORYNOT", 9, "null", 0),
+        INVENTORYPLAYERMENU("INVENTORYPLAYERMENU", 36, "Player Menu", 1),
+        INVENTORYPLAYERMENU_DEVMOD("INVENTORYPLAYERMENU_DEVMOD", 36, "Player Menu " + ChatColor.GOLD + ChatColor.BOLD + "DEVMOD", 2),
+        INVENTORYPROFILE("INVENTORYPROFILE", 54, "Profile", 3),
+        INVENTORYPROFILE_DEVMOD("INVENTORYPROFILE_DEVMOD", 54, "Profile " + ChatColor.GOLD + ChatColor.BOLD + "DEVMOD", 4),
+        INVENTORYSTATS("INVENTORYSTATS", 54, "Stats", 5),
+        INVENTORYSTATS_DEVMOD("INVENTORYSTATS_DEVMOD", 54, "Stats " + ChatColor.GOLD + ChatColor.BOLD + "DEVMOD", 6),
+        INVENTORYSETTINGS("INVENTORYSETTINGS", 54, "Settings", 7),
+        INVENTORYSETTINGS_DEVMOD("INVENTORYSETTINGS_DEVMOD", 54, "Settings " + ChatColor.GOLD + ChatColor.BOLD + "DEVMOD", 8),
+        INVENTORYCLASSES("INVENTORYCLASSES", 27, "Class choice", 9),
+        INVENTORYCLASSES_DEVMOD("INVENTORYCLASSES_DEVMOD", 36, "Class choice " + ChatColor.GOLD + ChatColor.BOLD + "DEVMOD", 10),
+        INVENTORYSUBARCHER("INVENTORYSUBARCHER", 36, "Archer subclass choice ", 11),
+        INVENTORYSUBARCHER_DEVMOD("INVENTORYSUBARCHER_DEVMOD", 36, "Archer subclass choice " + ChatColor.GOLD + ChatColor.BOLD + "DEVMOD", 12),
+        INVENTORYSUBMAGE("INVENTORYSUBMAGE", 36, "Mage subclass choice ", 13),
+        INVENTORYSUBMAGE_DEVMOD("INVENTORYSUBMAGE_DEVMOD", 36, "Mage subclass choice " + ChatColor.GOLD + ChatColor.BOLD + "DEVMOD", 14),
+        INVENTORYSUBSPIRITUALIST("INVENTORYSUBSPIRITUALIST", 36, "Spiritualist subclass choice ", 15),
+        INVENTORYSUBSPIRITUALIST_DEVMOD("INVENTORYSUBSPIRITUALIST_DEVMOD", 36, "Spiritualist subclass choice " + ChatColor.GOLD + ChatColor.BOLD + "DEVMOD", 16),
+        INVENTORYSUBWARRIOR("INVENTORYSUBWARRIOR", 36, "Warrior subclass choice ", 17),
+        INVENTORYSUBWARRIOR_DEVMOD("INVENTORYSUBWARRIOR_DEVMOD", 36, "Warrior subclass choice " + ChatColor.GOLD + ChatColor.BOLD + "DEVMOD", 18);
 
         private int slotNumber;
         private String inventoryName;
+        private int ordinal;
 
-        private InventoryTypeList(final String name, final int slotNumber, final String inventoryName) {
+        private InventoryTypeList(String name, int slotNumber, String inventoryName, int ordinal) {
             this.slotNumber = slotNumber;
             this.inventoryName = inventoryName;
+            this.ordinal = ordinal;
         }
 
-        public Inventory createInventory(final Player player) {
+        public Inventory createInventory(Player player) {
             return Bukkit.createInventory(player, this.slotNumber, this.inventoryName);
         }
 
@@ -293,5 +306,19 @@ public class GuiManager implements Listener
         public String getInventoryName() {
             return this.inventoryName;
         }
+
+        public int getOrdinal() {
+            return this.ordinal;
+        }
+
+        public static InventoryTypeList getOrdinalToInventoryType(int ordinal) {
+            for (InventoryTypeList inv : InventoryTypeList.values()) {
+                if (inv.getOrdinal() == ordinal) {
+                    return inv;
+                }
+            }
+            return null;
+        }
     }
 }
+

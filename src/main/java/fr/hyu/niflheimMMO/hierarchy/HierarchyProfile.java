@@ -1,4 +1,4 @@
-package fr.hyu.niflheimMMO.guild;
+package fr.hyu.niflheimMMO.hierarchy;
 
 public class HierarchyProfile {
     public enum Hierarchy
