@@ -23,10 +23,10 @@ public class PlayerProfile
     private String name;
     private UUID uuid;
     private PlayerRankProfile.Rank rank;
-
     private PlayerClassesProfile.Classes classes;
     private int level;
     private int experiencesPoints;
+    private int experienceNeeded;
     private int pointsAvailables;
     private double gold;
     private double karma;
@@ -45,6 +45,7 @@ public class PlayerProfile
     private HashMap<GuiManager.InventoryTypeList, Inventory> inventoryHashMapTypeListInv;
     private int warp;
 
+
     public PlayerProfile(Player player) {
         this.name = player.getDisplayName();
         this.uuid = player.getUniqueId();
@@ -56,10 +57,10 @@ public class PlayerProfile
         this.inventoryArrayList = this.initInventories(player);
         this.inventoryHashMapTypeListInv = this.initHashMap();
         this.level = config.getInt("level.level");
-        this.experiencesPoints = config.getInt("level.experiencsPoints");
+        this.experiencesPoints = config.getInt("level.experiencesPoints");
         this.pointsAvailables = config.getInt("level.pointsAvailables");
         this.gold = config.getInt("gold");
-        this.karma = config.getInt("karmaPoint");
+        this.karma = config.getInt("karmaPoints");
         this.warp = config.getInt("warps");
         this.vitalityNative = config.getInt("stats.vitalityNative");
         this.defenceNative = config.getInt("stats.defenceNative");
@@ -104,7 +105,7 @@ public class PlayerProfile
             config.set("class", "NONE");
 
             config.set("gold", 0);
-            config.set("karmaPoint", 0);
+            config.set("karmaPoints", 0);
             config.set("warps", 0);
 
             config.set("level.level", (Object)0);
@@ -219,7 +220,7 @@ public class PlayerProfile
         this.karma = karma;
         File file = new File(Main.INSTANCE.getDataFolder(), "NiflheimPerms/players/" + name + ".yml");
         FileConfiguration config = (FileConfiguration)YamlConfiguration.loadConfiguration(file);
-        config.set("karmaPoint", (Object)karma);
+        config.set("karmaPoints", (Object)karma);
         try {
             config.save(file);
         }
@@ -249,7 +250,7 @@ public class PlayerProfile
         return this.level;
     }
 
-    public void setLevel(final int level) {
+    public void setLevel(int level) {
         this.level = level;
         final File file = new File(Main.INSTANCE.getDataFolder(), "NiflheimPerms/players/" + name + ".yml");
         final FileConfiguration config = (FileConfiguration)YamlConfiguration.loadConfiguration(file);
@@ -266,7 +267,7 @@ public class PlayerProfile
         return this.experiencesPoints;
     }
 
-    public void setExperiencesPoints(final int experiencesPoints) {
+    public void setExperiencesPoints(int experiencesPoints) {
         this.experiencesPoints = experiencesPoints;
         final File file = new File(Main.INSTANCE.getDataFolder(), "NiflheimPerms/players/" + name + ".yml");
         final FileConfiguration config = (FileConfiguration)YamlConfiguration.loadConfiguration(file);
@@ -279,11 +280,15 @@ public class PlayerProfile
         }
     }
 
+    public int getExperienceNeeded() {return this.experienceNeeded; }
+
+    public void setExperienceNeeded(int experienceNeeded) { this.experienceNeeded = experienceNeeded;}
+
     public int getPointsAvailables() {
         return this.pointsAvailables;
     }
 
-    public void setPointsAvailables(final int pointsAvailables) {
+    public void setPointsAvailables(int pointsAvailables) {
         this.pointsAvailables = pointsAvailables;
         final File file = new File(Main.INSTANCE.getDataFolder(), "NiflheimPerms/players/" + name + ".yml");
         final FileConfiguration config = (FileConfiguration)YamlConfiguration.loadConfiguration(file);
@@ -299,7 +304,7 @@ public class PlayerProfile
         return this.vitalityNative;
     }
 
-    public void setVitalityNative(final int vitalityNative) {
+    public void setVitalityNative(int vitalityNative) {
         this.vitalityNative = vitalityNative;
         final File file = new File(Main.INSTANCE.getDataFolder(), "NiflheimPerms/players/" + name + ".yml");
         final FileConfiguration config = (FileConfiguration)YamlConfiguration.loadConfiguration(file);
@@ -316,7 +321,7 @@ public class PlayerProfile
         return this.defenceNative;
     }
 
-    public void setDefenceNative(final int defenceNative) {
+    public void setDefenceNative(int defenceNative) {
         this.defenceNative = defenceNative;
         final File file = new File(Main.INSTANCE.getDataFolder(), "NiflheimPerms/players/" + name + ".yml");
         final FileConfiguration config = (FileConfiguration)YamlConfiguration.loadConfiguration(file);
@@ -333,7 +338,7 @@ public class PlayerProfile
         return this.strengthNative;
     }
 
-    public void setStrengthNative(final int strengthNative) {
+    public void setStrengthNative(int strengthNative) {
         this.strengthNative = strengthNative;
         final File file = new File(Main.INSTANCE.getDataFolder(), "NiflheimPerms/players/" + name + ".yml");
         final FileConfiguration config = (FileConfiguration)YamlConfiguration.loadConfiguration(file);
@@ -350,7 +355,7 @@ public class PlayerProfile
         return this.dexterityNative;
     }
 
-    public void setDexterityNative(final int dexterityNative) {
+    public void setDexterityNative(int dexterityNative) {
         this.dexterityNative = dexterityNative;
         final File file = new File(Main.INSTANCE.getDataFolder(), "NiflheimPerms/players/" + name + ".yml");
         final FileConfiguration config = (FileConfiguration)YamlConfiguration.loadConfiguration(file);
@@ -367,7 +372,7 @@ public class PlayerProfile
         return this.enduranceOnLeave;
     }
 
-    public void setEnduranceOnLeave(final int enduranceOnLeave) {
+    public void setEnduranceOnLeave(int enduranceOnLeave) {
         this.enduranceOnLeave = enduranceOnLeave;
         final File file = new File(Main.INSTANCE.getDataFolder(), "NiflheimPerms/players/" + name + ".yml");
         final FileConfiguration config = (FileConfiguration)YamlConfiguration.loadConfiguration(file);
@@ -384,7 +389,7 @@ public class PlayerProfile
         return this.enduranceCapacityNative;
     }
 
-    public void setEnduranceNative(final int enduranceNative) {
+    public void setEnduranceNative(int enduranceNative) {
         this.enduranceCapacityNative = enduranceNative;
         final File file = new File(Main.INSTANCE.getDataFolder(), "NiflheimPerms/players/" + name + ".yml");
         final FileConfiguration config = (FileConfiguration)YamlConfiguration.loadConfiguration(file);
@@ -401,7 +406,7 @@ public class PlayerProfile
         return this.intelligenceNative;
     }
 
-    public void setIntelligenceNative(final int intelligenceNative) {
+    public void setIntelligenceNative(int intelligenceNative) {
         this.intelligenceNative = intelligenceNative;
         final File file = new File(Main.INSTANCE.getDataFolder(), "NiflheimPerms/players/" + name + ".yml");
         final FileConfiguration config = (FileConfiguration)YamlConfiguration.loadConfiguration(file);
@@ -418,7 +423,7 @@ public class PlayerProfile
         return this.faithNative;
     }
 
-    public void setFaithNative(final int faithNative) {
+    public void setFaithNative(int faithNative) {
         this.faithNative = faithNative;
         final File file = new File(Main.INSTANCE.getDataFolder(), "NiflheimPerms/players/" + name + ".yml");
         final FileConfiguration config = (FileConfiguration)YamlConfiguration.loadConfiguration(file);
@@ -435,7 +440,7 @@ public class PlayerProfile
         return this.manaOnLeave;
     }
 
-    public void setManaOnLeave(final int mana) {
+    public void setManaOnLeave(int mana) {
         this.manaOnLeave = mana;
         final File file = new File(Main.INSTANCE.getDataFolder(), "NiflheimPerms/players/" + name + ".yml");
         final FileConfiguration config = (FileConfiguration)YamlConfiguration.loadConfiguration(file);
@@ -452,7 +457,7 @@ public class PlayerProfile
         return this.manaCapacityNative;
     }
 
-    public void setManaCapacityNative(final int manaCapacityNative) {
+    public void setManaCapacityNative(int manaCapacityNative) {
         this.manaCapacityNative = manaCapacityNative;
         final File file = new File(Main.INSTANCE.getDataFolder(), "NiflheimPerms/players/" + name + ".yml");
         final FileConfiguration config = (FileConfiguration)YamlConfiguration.loadConfiguration(file);
@@ -469,7 +474,7 @@ public class PlayerProfile
         return this.agilityNative;
     }
 
-    public void setAgilityNative(final int agilityNative) {
+    public void setAgilityNative(int agilityNative) {
         this.agilityNative = agilityNative;
         final File file = new File(Main.INSTANCE.getDataFolder(), "NiflheimPerms/players/" + name + ".yml");
         final FileConfiguration config = (FileConfiguration)YamlConfiguration.loadConfiguration(file);
@@ -483,7 +488,7 @@ public class PlayerProfile
     }
 
     public static double getStat(Player player, Stat stat) {
-        final String upperCase;
+        String upperCase;
         switch (upperCase = stat.getName().toUpperCase()) {
             case "FAITHNATIVE": {
                 return PlayerProfileManager.profiles.get(player).getFaithNative();
@@ -539,80 +544,79 @@ public class PlayerProfile
         return 0.0;
     }
 
-    public static void setStat(final Player player, final Stat stat, final double toSet) {
-        final String upperCase;
+    public static void setStat(Player player, Stat stat, double toSet) {
+        String upperCase;
         switch (upperCase = stat.getName().toUpperCase()) {
-            case "FAITHNATIVE": {
+            case "FAITHNATIVE":
                 PlayerProfileManager.profiles.get(player).setFaithNative((int)toSet);
                 return;
-            }
-            case "ENDURANCENATIVE": {
+
+            case "ENDURANCENATIVE":
                 PlayerProfileManager.profiles.get(player).setEnduranceNative((int)toSet);
                 return;
-            }
-            case "POINTSAVAILABLES": {
+
+            case "POINTSAVAILABLES":
                 PlayerProfileManager.profiles.get(player).setPointsAvailables((int)toSet);
                 return;
-            }
-            case "AGILITYNATIVE": {
+
+            case "AGILITYNATIVE":
                 PlayerProfileManager.profiles.get(player).setAgilityNative((int)toSet);
                 return;
-            }
-            case "GOLD": {
+
+            case "GOLD":
                 PlayerProfileManager.profiles.get(player).setGold(toSet);
                 return;
-            }
-            case "WARP": {
+
+            case "WARP":
                 PlayerProfileManager.profiles.get(player).setWarp((int)toSet);
                 return;
-            }
-            case "KARMA": {
+
+            case "KARMA":
                 PlayerProfileManager.profiles.get(player).setKarma(toSet);
                 return;
-            }
-            case "LEVEL": {
+
+            case "LEVEL":
                 PlayerProfileManager.profiles.get(player).setLevel((int)toSet);
                 return;
-            }
-            case "VITALITYNATIVE": {
+
+            case "VITALITYNATIVE":
                 PlayerProfileManager.profiles.get(player).setVitalityNative((int)toSet);
                 return;
-            }
-            case "STRENGTHNATIVE": {
+
+            case "STRENGTHNATIVE":
                 PlayerProfileManager.profiles.get(player).setStrengthNative((int)toSet);
                 return;
-            }
-            case "DEFENCENATIVE": {
+
+            case "DEFENCENATIVE":
                 PlayerProfileManager.profiles.get(player).setDefenceNative((int)toSet);
                 return;
-            }
-            case "INTELLIGENCENATIVE": {
+
+            case "INTELLIGENCENATIVE":
                 PlayerProfileManager.profiles.get(player).setIntelligenceNative((int)toSet);
                 return;
-            }
-            case "MANAONLEAVE": {
+
+            case "MANAONLEAVE":
                 PlayerProfileManager.profiles.get(player).setManaOnLeave((int)toSet);
                 return;
-            }
-            case "DEXTIRITYNATIVE": {
+
+            case "DEXTIRITYNATIVE":
                 PlayerProfileManager.profiles.get(player).setDexterityNative((int)toSet);
                 return;
-            }
-            case "MANACAPACITYNATIVE": {
+
+            case "MANACAPACITYNATIVE":
                 PlayerProfileManager.profiles.get(player).setManaCapacityNative((int)toSet);
                 return;
-            }
-            case "EXPERIENCEPOINTS": {
+
+            case "EXPERIENCEPOINTS":
                 PlayerProfileManager.profiles.get(player).setExperiencesPoints((int)toSet);
                 return;
-            }
             default:
                 break;
         }
     }
 
     public static void addStat(Player player, Stat stat, double toAdd) {
-        final String upperCase;
+        String upperCase;
         switch (upperCase = stat.getName().toUpperCase()) {
             case "FAITHNATIVE": {
                 PlayerProfileManager.profiles.get(player).setFaithNative((int)(PlayerProfileManager.profiles.get(player).getFaithNative() + toAdd));

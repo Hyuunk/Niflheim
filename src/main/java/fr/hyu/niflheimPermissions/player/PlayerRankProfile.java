@@ -8,6 +8,7 @@ import org.bukkit.entity.Player;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -45,12 +46,10 @@ public class PlayerRankProfile {
         }
     }
 
-    public static boolean hasPermission(final Player player, final String permission) {
-        if (permission.indexOf("niflheim.") != -1) {
-            return PlayerRankProfile.permissions.get(PlayerProfileManager.profiles.get(player).getRank()).contains("niflheim.*") || PlayerRankProfile.permissions.get(PlayerProfileManager.profiles.get(player).getRank()).contains(permission);
-        }
-        return PlayerRankProfile.permissions.get(PlayerProfileManager.profiles.get(player).getRank()).contains(permission);
+    public static boolean hasPermission(Player player, String permission) {
+        return PlayerRankProfile.permissions.get(PlayerProfileManager.profiles.get(player).getRank()).contains("niflheim.*") || PlayerRankProfile.permissions.get(PlayerProfileManager.profiles.get(player).getRank()).contains(permission);
     }
+
 
     public static List<String> getPermissions(final Player player) {
         return PlayerRankProfile.permissions.get(PlayerProfileManager.profiles.get(player).getRank());

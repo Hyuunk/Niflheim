@@ -26,7 +26,11 @@ public class PlayerProfileManager implements Listener
     @EventHandler
     public void onQuit(PlayerQuitEvent event) {
         Player player = event.getPlayer();
-        if (PlayerProfileManager.profiles.get(player).getClasses().equals(PlayerClassesProfile.Classes.PENDING)) { PlayerProfileManager.profiles.get(player).setClasses(PlayerClassesProfile.Classes.NONE); }
+
+        try {
+            if (PlayerProfileManager.profiles.get(player).getClasses().equals(PlayerClassesProfile.Classes.PENDING)) { PlayerProfileManager.profiles.get(player).setClasses(PlayerClassesProfile.Classes.NONE);}
+        } catch (NullPointerException ex) {}
+
         PlayerProfileManager.profiles.remove(player);
     }
 }
