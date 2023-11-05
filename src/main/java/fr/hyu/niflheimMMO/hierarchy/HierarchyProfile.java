@@ -3,6 +3,7 @@ package fr.hyu.niflheimMMO.hierarchy;
 public class HierarchyProfile {
     public enum Hierarchy
     {
+        NONE("NONE", "", ""),
         PEASANT("PEASANT", "Paysan", "Paysanne"),
         ARTISANT("ARTISANT", "Artisant", "Artisanne"),
         KNIGHT("KNIGHT", "Chevalier", "Chevaleresse"),

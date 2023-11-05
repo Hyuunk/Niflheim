@@ -48,7 +48,7 @@ public class Experiences {
 
             playerProfile.setStat(player, PlayerProfile.Stat.EXPERIENCEPOINTS, newExperience);
             playerProfile.addStat(player,PlayerProfile.Stat.LEVEL, 1);
-            playerProfile.addStat(player, PlayerProfile.Stat.POINTSAVAILABLES, 3);
+            playerProfile.addStat(player, PlayerProfile.Stat.POINTSAVAILABLES, 2);
 
             playerProfile.setExperienceNeeded(levelNeededPerLevel.get(PlayerProfileManager.profiles.get(player).getLevel()));
             return true;

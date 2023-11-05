@@ -5,6 +5,7 @@ import fr.hyu.niflheim.chat.ChatEvent;
 import fr.hyu.niflheim.chat.ChatManager;
 import fr.hyu.niflheim.chat.JoinLeaveEvents;
 import fr.hyu.niflheim.gui.GuiManager;
+import fr.hyu.niflheim.gui.classmenu.OnClassBlock;
 import fr.hyu.niflheim.gui.menu.MenuManager;
 import fr.hyu.niflheim.gui.menu.classes.ClassesMenu;
 import fr.hyu.niflheimEconomy.EconomyCommands;
@@ -13,6 +14,7 @@ import fr.hyu.niflheimMMO.OnEventMMO;
 import fr.hyu.niflheimMMO.classes.PlayerClassesManager;
 import fr.hyu.niflheimMMO.experience.ExperienceGetter;
 import fr.hyu.niflheimMMO.experience.Experiences;
+import fr.hyu.niflheimMMO.items.ItemProfile;
 import fr.hyu.niflheimMMO.items.ItemsListeners;
 import fr.hyu.niflheimMMO.mobs.MonstersListeners;
 import fr.hyu.niflheimMMO.mobs.MonsterSpawning;
@@ -61,6 +63,7 @@ public class Main extends JavaPlugin {
         this.getServer().getPluginManager().registerEvents(new MonsterSpawning(), this);
         this.getServer().getPluginManager().registerEvents(new MonstersListeners(), this);
         this.getServer().getPluginManager().registerEvents(new ItemsListeners(), this);
+        this.getServer().getPluginManager().registerEvents(new OnClassBlock(),this);
     }
 
     public void onDisable() {

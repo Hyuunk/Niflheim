@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import fr.hyu.Main;
 import fr.hyu.niflheim.gui.GuiManager;
 import fr.hyu.niflheimMMO.classes.PlayerClassesProfile;
+import fr.hyu.niflheimMMO.hierarchy.HierarchyProfile;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import java.io.File;
@@ -24,6 +25,7 @@ public class PlayerProfile
     private UUID uuid;
     private PlayerRankProfile.Rank rank;
     private PlayerClassesProfile.Classes classes;
+    private HierarchyProfile.Hierarchy hierarchy;
     private int level;
     private int experiencesPoints;
     private int experienceNeeded;
@@ -31,6 +33,7 @@ public class PlayerProfile
     private double gold;
     private double karma;
     private int vitalityNative;
+    private int vitalityOnLeave;
     private int defenceNative;
     private int strengthNative;
     private int dexterityNative;
@@ -54,6 +57,7 @@ public class PlayerProfile
         final FileConfiguration config = (FileConfiguration)YamlConfiguration.loadConfiguration(file);
         this.rank = PlayerRankProfile.Rank.valueOf(config.getString("rank"));
         this.classes = PlayerClassesProfile.Classes.valueOf(config.getString("class"));
+        this.hierarchy = HierarchyProfile.Hierarchy.valueOf(config.getString("hierarchy"));
         this.inventoryArrayList = this.initInventories(player);
         this.inventoryHashMapTypeListInv = this.initHashMap();
         this.level = config.getInt("level.level");
@@ -63,6 +67,7 @@ public class PlayerProfile
         this.karma = config.getInt("karmaPoints");
         this.warp = config.getInt("warps");
         this.vitalityNative = config.getInt("stats.vitalityNative");
+        this.vitalityOnLeave = config.getInt("stats.vitalityOnLeave");
         this.defenceNative = config.getInt("stats.defenceNative");
         this.strengthNative = config.getInt("stats.strengthNative");
         this.dexterityNative = config.getInt("stats.dexterityNative");
@@ -103,25 +108,27 @@ public class PlayerProfile
             final FileConfiguration config = (FileConfiguration)YamlConfiguration.loadConfiguration(file);
             config.set("rank", "DEFAULT");
             config.set("class", "NONE");
+            config.set("hierarchy", "NONE");
 
             config.set("gold", 0);
             config.set("karmaPoints", 0);
             config.set("warps", 0);
 
-            config.set("level.level", (Object)0);
-            config.set("level.experiencesPoints", (Object)0);
-            config.set("level.pointsAvailables", (Object)0);
-            config.set("stats.vitalityNative", (Object)0);
-            config.set("stats.defenceNative", (Object)0);
-            config.set("stats.strengthNative", (Object)0);
-            config.set("stats.dexterityNative", (Object)0);
-            config.set("stats.enduranceOnLeave", (Object)100);
-            config.set("stats.enduranceNative", (Object)100);
-            config.set("stats.intelligenceNative", (Object)0);
-            config.set("stats.faithNative", (Object)0);
-            config.set("stats.manaOnLeave", (Object)100);
-            config.set("stats.manaCapacityNative", (Object)100);
-            config.set("stats.agilityNative", (Object)0);
+            config.set("level.level", 0);
+            config.set("level.experiencesPoints", 0);
+            config.set("level.pointsAvailables", 0);
+            config.set("stats.vitalityNative", 0);
+            config.set("stats.vitalityOnLeave", 100);
+            config.set("stats.defenceNative", 0);
+            config.set("stats.strengthNative", 0);
+            config.set("stats.dexterityNative", 0);
+            config.set("stats.enduranceOnLeave", 100);
+            config.set("stats.enduranceNative", 100);
+            config.set("stats.intelligenceNative", 0);
+            config.set("stats.faithNative", 0);
+            config.set("stats.manaOnLeave", 100);
+            config.set("stats.manaCapacityNative", 100);
+            config.set("stats.agilityNative", 0);
             try {
                 config.save(file);
             }
@@ -173,6 +180,21 @@ public class PlayerProfile
         final File file = new File(Main.INSTANCE.getDataFolder(), "NiflheimPerms/players/" + name + ".yml");
         final FileConfiguration config = (FileConfiguration)YamlConfiguration.loadConfiguration(file);
         config.set("class", classes.getName());
+        try {
+            config.save(file);
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public HierarchyProfile.Hierarchy getHierarchy() {return this.hierarchy;}
+
+    public void setHierarchy(HierarchyProfile.Hierarchy hierarchy) {
+        this.hierarchy = hierarchy;
+        final File file = new File(Main.INSTANCE.getDataFolder(), "NiflheimPerms/players/" + name + ".yml");
+        final FileConfiguration config = (FileConfiguration)YamlConfiguration.loadConfiguration(file);
+        config.set("hierarchy", hierarchy.getName());
         try {
             config.save(file);
         }
@@ -309,6 +331,21 @@ public class PlayerProfile
         final File file = new File(Main.INSTANCE.getDataFolder(), "NiflheimPerms/players/" + name + ".yml");
         final FileConfiguration config = (FileConfiguration)YamlConfiguration.loadConfiguration(file);
         config.set("stats.vitalityNative", (Object)vitalityNative);
+        try {
+            config.save(file);
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public int getVitalityOnLeave() { return this.vitalityOnLeave;}
+
+    public void setVitalityOnLeave(int vitalityOnLeave) {
+        this.vitalityOnLeave = vitalityOnLeave;
+        final File file = new File(Main.INSTANCE.getDataFolder(), "NiflheimPerms/players/" + name + ".yml");
+        final FileConfiguration config = (FileConfiguration)YamlConfiguration.loadConfiguration(file);
+        config.set("stats.vitalityOnLeave", (Object)vitalityOnLeave);
         try {
             config.save(file);
         }
