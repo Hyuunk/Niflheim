@@ -26,8 +26,10 @@ public class AgilityApplicator {
 
     public static double agilityCalculator(int agility) {
 
+        if(agility < 0 ) return 0;
+
         // Créez un objet DecimalFormat pour spécifier le format
-        DecimalFormat decimalFormat = new DecimalFormat("#.##");
+        DecimalFormat decimalFormat = new DecimalFormat("#.####");
 
         double agilityCalculated = 0.001 + 0.0749 * Math.log(agility + 1);
 

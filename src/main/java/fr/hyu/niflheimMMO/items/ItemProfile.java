@@ -149,7 +149,6 @@ public class ItemProfile {
             config.set("nameItem", "");
             config.set("Rarity", "");
             config.set("Lore", "");
-            config.set("MonsterDrop", "");
 
             config.set("maxLevel", 2);
             config.set("minLevel", 1);

@@ -60,8 +60,9 @@ public class DexterityApplicator {
 
     public static double dexterityCalculator(int dexterity) {
 
+        if(dexterity < 0 ) return 0;
         // Créez un objet DecimalFormat pour spécifier le format
-        DecimalFormat decimalFormat = new DecimalFormat("#.##");
+        DecimalFormat decimalFormat = new DecimalFormat("#.####");
 
         double dexterityCalculated = 0.001 + 0.0749 * Math.log(dexterity + 1);
 
